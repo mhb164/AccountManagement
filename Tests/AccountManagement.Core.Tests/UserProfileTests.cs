@@ -1,4 +1,6 @@
-﻿namespace AccountManagement.Core.Tests
+﻿using System;
+
+namespace AccountManagement.Core.Tests
 {
     public class UserProfileTests
     {
@@ -34,6 +36,15 @@
             var userProfile = new UserProfile(firstname, lastname);
 
             Assert.Equal(userProfile.Fullname, expectedFullname);
+        }
+
+        [Theory]
+        [InlineData(null, null)]
+        [InlineData("", null)]
+        [InlineData("", "")]
+        public void FirstnameAndLastname_NullOrEmptyShouldThrowArgumentException(string firstname, string lastname)
+        {
+            Assert.Throws<ArgumentException>(() => new UserProfile(firstname, lastname));
         }
     }
 }
