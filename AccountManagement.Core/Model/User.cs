@@ -6,8 +6,8 @@ namespace AccountManagement.Core
 {
     public class User
     {
-        private readonly List<UserEmail> _emails = new List<UserEmail>();
-        private readonly List<UserMobileNumber> _mobileNumbers = new List<UserMobileNumber>();
+        private readonly HashSet<UserEmail> _emails = new HashSet<UserEmail>();
+        private readonly HashSet<UserMobileNumber> _mobileNumbers = new HashSet<UserMobileNumber>();
 
         public Guid Id { get; private set; }
         public bool Activation { get; private set; }
@@ -17,8 +17,4 @@ namespace AccountManagement.Core
         public IEnumerable<UserEmail> Emails => _emails;
         public IEnumerable<UserMobileNumber> MobileNumbers => _mobileNumbers;
     }
-
-
-
-
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SeedWork;
+using System;
 
 namespace AccountManagement.Core
 {
@@ -56,8 +57,4 @@ namespace AccountManagement.Core
         public static bool operator !=(UserProfile left, UserProfile right)
             => !(left == right);
     }
-
-
-
-
 }
