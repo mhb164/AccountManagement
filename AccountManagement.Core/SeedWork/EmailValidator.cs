@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Net.Mail;
 using System.Text.RegularExpressions;
 
 namespace SeedWork
@@ -11,7 +12,7 @@ namespace SeedWork
     {
         private static readonly string _regexNormalizePattern = @"(@)(.+)$";
         private static readonly string _regexMatchPattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
-        
+
         public static bool IsValidEmail(this string email)
         {
             if (string.IsNullOrWhiteSpace(email))
@@ -33,9 +34,19 @@ namespace SeedWork
 
             try
             {
-                return Regex.IsMatch(email, _regexMatchPattern, RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(250));
+                Regex.IsMatch(email, _regexMatchPattern, RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(250));
             }
             catch (RegexMatchTimeoutException)
+            {
+                return false;
+            }
+
+            try
+            {
+                var mailAddress = new MailAddress(email);
+                return email.Equals(mailAddress.Address, StringComparison.InvariantCultureIgnoreCase);
+            }
+            catch
             {
                 return false;
             }

@@ -5,19 +5,20 @@ namespace AccountManagement.Core
 {
     public sealed class UserEmail : IEquatable<UserEmail>
     {
-        public UserEmail(string value, DateTime? validationTime = null)
+        public UserEmail(string address, DateTime? validationTime = null)
         {
-            if (string.IsNullOrWhiteSpace(value))
-                throw new ArgumentException($"Email cannot be null ot empty!", nameof(value));
+            if (string.IsNullOrWhiteSpace(address))
+                throw new ArgumentException($"Email cannot be null or empty!", nameof(address));
 
-            if (!value.IsValidEmail())
-                throw new ArgumentException($"Email ({value}) isn't valid!", nameof(value));
+            address = address.Trim();   
+            if (!address.IsValidEmail())
+                throw new ArgumentException($"Email ({address}) isn't valid!", nameof(address));
 
-            Value = value.ToLower().Trim();
+            Address = address.ToLower().Trim();
             ValidationTime = validationTime;
         }
 
-        public string Value { get; private set; }
+        public string Address { get; private set; }
         public DateTime? ValidationTime { get; private set; }
 
         public void Validate(DateTime validationTime)
@@ -37,11 +38,11 @@ namespace AccountManagement.Core
             if (GetType() != other.GetType())
                 return false;
 
-            return string.Equals(Value, other.Value);
+            return string.Equals(Address, other.Address);
         }
 
         public override int GetHashCode()
-            => Value.GetHashCode();
+            => Address.GetHashCode();
 
         public static bool operator ==(UserEmail left, UserEmail right)
         {
